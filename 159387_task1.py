@@ -1,12 +1,13 @@
 import numpy
 import matplotlib.pyplot as plt
+import requests
 
 
 total_words = 0
 total_chars = 0
 n_of_lines = 0
 
-with open ("Galia.txt", "r") as fp:
+with open ("Sulpicia.txt", "r") as fp:
     for line in fp.readlines():
         n_of_lines += 1
         line = line.replace("\n", "")
@@ -25,7 +26,7 @@ print("The avarage number of words per line: ", avarage_words)
 print("The avarage number of chars per line: ", avarage_chars)
 
 def caculate_formula(a, b, x):
-    return a*x*x*x+b*x
+    return a*x+b*x**3
 
 
 
@@ -39,14 +40,30 @@ for i in x:
 
 column2 = []
 for i in x:
-    column1.append(caculate_formula(5, 5, i))
+    column2.append(caculate_formula(5, 5, i))
 
-y = numpy.array(column1, column2)
 
-print(y[0])
+
+y = numpy.column_stack((numpy.array(column1), numpy.array(column2)))
+
+
 
 plt.figure()
-plt.plot(x, y)
-plt.plot(x, y[1])
+
+plt.plot(x, y[:, 0], "green")
+plt.plot(x, y[:, 1], "red")
+plt.legend(["A = 1, B = 2", "A = 5, B = 5"])
+plt.xlabel("x")
+plt.ylabel("y")
 
 plt.show()
+
+
+
+students_number = "159387"
+
+sum = 0
+for i in students_number:
+    sum += int(i)
+
+print(requests.get(f"http://numbersapi.com/{sum}").text)
